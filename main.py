@@ -1,19 +1,34 @@
 from bokeh.plotting import figure, output_file, show
+import pandas
 
-x = [1, 2, 3, 4, 5]
-y = [2, 5, 4, 1, 6]
+# Read from CSV (direct data source)
+df = pandas.read_csv('cars.csv')
+
+car = df['Car']
+hp = df['Horsepower']
+price = df['Price']
 
 output_file('index.html')
 
-# adding plot
+# creating plot
 p = figure(
-    title='Simple Example',
-    x_axis_label='X',
-    y_axis_label='Y'
+    y_range=car,
+    plot_width=1400,
+    plot_height=700,
+    title='Cars with most HP',
+    x_axis_label='Horsepower',
+    tools='save'
 )
 
-# render
-p.line(x, y, legend="Test", line_width=2)
+# render chart
+p.hbar(
+    y=car,
+    right=hp,
+    left=0,
+    height=0.5,
+    color='blue',
+    fill_alpha=0.5
+)
 
 # plot results
 show(p)
